@@ -3,7 +3,7 @@ const router = Router();
 
 import {questionRouter,getData} from "./Question.js";
 import answerRouter from "./Answer.js";
-import loginRouter from "./Login.js";
+import {loginRouter,registerRouter} from "./Login.js";
 
 
 // router.get("/", (req, res) => {
@@ -12,6 +12,7 @@ import loginRouter from "./Login.js";
 
 router.get("/",getData)
 router.post("/login",loginRouter)
+router.post("/register",registerRouter)
 router.post("/questions", questionRouter);
 router.post("/answers", answerRouter);
 

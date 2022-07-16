@@ -24,7 +24,6 @@ app.use(cors());
 // });
 
 //routes
-console.log(router);
 app.use("/api", router);
 
 // app.use("/uploads", stc(path.join(__dirname, "/../uploads")));
