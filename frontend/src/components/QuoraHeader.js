@@ -41,7 +41,7 @@ function QuoraHeader() {
         user: user,
       };
       await axios
-        .post("/api/questions", body, config)
+        .post("http://localhost:8000/api/questions", body, config)
         .then((res) => {
           console.log(res.data);
           alert(res.data.message);

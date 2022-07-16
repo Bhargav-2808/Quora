@@ -8,7 +8,7 @@ function Feed() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     axios
-      .get("/api/questions")
+      .get("http://localhost:8000/api/questions")
       .then((res) => {
         console.log(res.data.reverse());
         setPosts(res.data);

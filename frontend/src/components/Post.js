@@ -52,7 +52,7 @@ function Post({ post }) {
         user: user,
       };
       await axios
-        .post("/api/answers", body, config)
+        .post("http://localhost:8000/api/answers", body, config)
         .then((res) => {
           console.log(res.data);
           alert("Answer added succesfully");

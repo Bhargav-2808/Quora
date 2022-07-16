@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
-const PORT = 80;
+const PORT = 8000;
 const db = require("./db");
 const router = require("./routes");
 
@@ -14,13 +14,14 @@ db.connect();
 //middle ware
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(cors());
 
 //cors
-app.use((req, res, next) => {
-  req.header("Access-Control-Allow-Origin", "*");
-  req.header("Access-Control-Allow-Headers", "*");
-  next();
-});
+// app.use((req, res, next) => {
+//   req.header("Access-Control-Allow-Origin", "*");
+//   req.header("Access-Control-Allow-Headers", "*");
+//   next();
+// });
 
 //routes
 
@@ -37,7 +38,7 @@ app.get("*", (req, res) => {
   }
 });
 
-app.use(cors());
+
 
 //server listening
 app.listen(process.env.PORT || PORT, () => {
