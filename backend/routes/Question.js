@@ -1,9 +1,6 @@
-const express = require("express");
-const router = express.Router();
+import questionDB from "../models/Question.js";
 
-const questionDB = require("../models/Question");
-
-router.post("/", async (req, res) => {
+const questionRouter= async (req, res) => {
   console.log(req.body);
 
   try {
@@ -31,9 +28,9 @@ router.post("/", async (req, res) => {
       message: "Error while adding question",
     });
   }
-});
+};
 
-router.get("/", async (req, res) => {
+const getData= async (req, res) => {
   try {
     await questionDB
       .aggregate([
@@ -62,6 +59,6 @@ router.get("/", async (req, res) => {
       message: "Unexpected error",
     });
   }
-});
+};
 
-module.exports = router;
+export {questionRouter,getData};

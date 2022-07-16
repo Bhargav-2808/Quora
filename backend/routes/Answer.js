@@ -1,9 +1,6 @@
-const express = require("express");
-const router = express.Router();
+import answerDB from "../models/Answer.js";
 
-const answerDB = require("../models/Answer");
-
-router.post("/", async (req, res) => {
+const answerRouter= async (req, res) => {
   try {
     await answerDB
       .create({
@@ -29,6 +26,6 @@ router.post("/", async (req, res) => {
       message: "Error while adding answer",
     });
   }
-});
+};
 
-module.exports = router;
+export default answerRouter;

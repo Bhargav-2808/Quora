@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose'
 
 const url =
   "mongodb://localhost:27017/Quora";
 
-module.exports.connect = () => {
+const connect = () => {
   mongoose
     .connect(url, {
       useNewUrlParser: true,
@@ -14,3 +14,5 @@ module.exports.connect = () => {
     })
     .catch((error) => console.log("Error: ", error));
 };
+
+export default connect;

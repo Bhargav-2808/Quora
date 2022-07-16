@@ -1,14 +1,18 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 
-const questionRouter = require("./Question");
-const answerRouter = require("./Answer");
+import {questionRouter,getData} from "./Question.js";
+import answerRouter from "./Answer.js";
+import loginRouter from "./Login.js";
 
-router.get("/", (req, res) => {
-  res.send("This api is reserved for quora clone");
-});
 
-router.use("/questions", questionRouter);
-router.use("/answers", answerRouter);
+// router.get("/", (req, res) => {
+//   res.send("This api is reserved for quora clone");
+// });
 
-module.exports = router;
+router.get("/",getData)
+router.post("/login",loginRouter)
+router.post("/questions", questionRouter);
+router.post("/answers", answerRouter);
+
+export default router;

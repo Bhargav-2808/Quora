@@ -1,15 +1,15 @@
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
+import express, {static as stc}  from "express";
+import cors from "cors";
+import path  from "path";
 const app = express();
-const bodyParser = require("body-parser");
+import bodyParser from "body-parser";
 const PORT = 8000;
-const db = require("./db");
-const router = require("./routes");
-
+import  connect  from "./db.js";
+import router from "./routes/index.js";
+const __dirname = path.resolve(path.dirname('')); 
 //database connection
 
-db.connect();
+connect();
 
 //middle ware
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -24,19 +24,19 @@ app.use(cors());
 // });
 
 //routes
-
+console.log(router);
 app.use("/api", router);
 
-app.use("/uploads", express.static(path.join(__dirname, "/../uploads")));
-app.use(express.static(path.join(__dirname, "/../frontend/build")));
+// app.use("/uploads", stc(path.join(__dirname, "/../uploads")));
+// app.use(stc(path.join(__dirname, "/../frontend/public")));
 
-app.get("*", (req, res) => {
-  try {
-    res.sendFile(path.join(`${__dirname}/../frontend/build/index.html`));
-  } catch (e) {
-    res.send("Oops! unexpected error");
-  }
-});
+// app.get("*", (req, res) => {
+//   try {
+//     res.sendFile(path.join(`${__dirname}/../frontend/public/index.html`));
+//   } catch (e) {
+//     res.send("Oops! unexpected error");
+//   }
+// });
 
 
 
