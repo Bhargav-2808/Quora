@@ -19,6 +19,7 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { logout, selectUser } from "../feature/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function QuoraHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,6 +28,7 @@ function QuoraHeader() {
   const Close = <CloseIcon />;
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (question !== "") {
@@ -55,16 +57,18 @@ function QuoraHeader() {
   };
 
   const handleLogout = () => {
-    if (window.confirm("Are you sure to logout ?")) {
-      signOut(auth)
-        .then(() => {
-          dispatch(logout());
-          console.log("Logged out");
-        })
-        .catch(() => {
-          console.log("error in logout");
-        });
-    }
+    // if (window.confirm("Are you sure to logout ?")) {
+    //   signOut(auth)
+    //     .then(() => {
+    //       dispatch(logout());
+    //       console.log("Logged out");
+    //     })
+    //     .catch(() => {
+    //       console.log("error in logout");
+    //     });
+    // }
+    localStorage.clear("user");
+    navigate("/login");
   };
   return (
     <div className="qHeader">
@@ -97,9 +101,7 @@ function QuoraHeader() {
           <input type="text" placeholder="Search questions" />
         </div>
         <div className="qHeader__Rem">
-          <span onClick={handleLogout}>
-            <Avatar src={user?.photo} />
-          </span>
+          <Button onClick={handleLogout}>Log Out</Button>
 
           <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
           <Modal

@@ -3,6 +3,7 @@
     border-radius: 15px ;
     padding: 40px;
     box-shadow: 0 5px 30px rgba(0, 2, 4, 0.2);
+    width:"100%"
 }
 
 .card img{
@@ -15,8 +16,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw;
     box-sizing: border-box;
 }
 

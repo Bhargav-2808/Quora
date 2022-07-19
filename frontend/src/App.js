@@ -5,10 +5,25 @@ import Login from "./components/auth/Login";
 import NLogin from "./components/auth/NLogin";
 import SignUp from "./components/auth/SignUp";
 import Quora from "./components/Quora";
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { login, selectUser } from "./feature/userSlice";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
+
+const Protected = (props)=>{
+  const {Comp} = props;
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if(localStorage.getItem("user")===null){
+       navigate("/login");         
+    }   
+   });
+  return(
+    <>
+      <Comp />
+    </>
+  )
+}
 
 function App() {
   const user = useSelector(selectUser);
@@ -34,7 +49,9 @@ function App() {
       {/* <h1>This is for testing</h1> */}
       {/* {user ? <Quora /> : <NLogin />} */}
       <Routes>
-          <Route exact path='/' element={<Quora/>}/>
+          <Route exact path='/' element={
+          
+           <Protected  Comp={Quora} />     }/>
           <Route exact path="/signup" element={<SignUp />}/>
           <Route exact path="/login" element={<NLogin />}/>
       </Routes>

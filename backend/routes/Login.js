@@ -6,10 +6,10 @@ import  mongoose  from "mongoose";
 const loginRouter = async (req, res) => {
   const lemail = req.body.email;
   const password = req.body.password;
-
+  
   try {
     const luser = await loginDB.findOne({ email: lemail });
-
+    console.log(luser)
     if (luser) {
       const decrypted = bcrypt.compareSync(password, luser.password);
       if (decrypted) {
