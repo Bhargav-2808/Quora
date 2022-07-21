@@ -6,17 +6,15 @@ import axios from "axios";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
+
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api")
-      .then((res) => {
-        console.log(res.data.reverse());
-        setPosts(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+    getData();
+}, []);
+  const getData = async ()=>{
+    const res = await  axios.get("http://localhost:8000/api");
+    setPosts(res.data);
+  }
+
   return (
     <div className="feed">
       <QuoraBox />

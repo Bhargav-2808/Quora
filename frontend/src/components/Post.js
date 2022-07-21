@@ -7,7 +7,7 @@ import {
   RepeatOneOutlined,
   ShareOutlined,
 } from "@material-ui/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/Post.css";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
@@ -19,6 +19,7 @@ import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
 import { useSelector } from "react-redux";
 import { selectUser } from "../feature/userSlice";
+import { Container, Row, Col } from "react-bootstrap";
 
 function LastSeen({ date }) {
   return (
@@ -54,10 +55,9 @@ function Post({ post }) {
       await axios
         .post("http://localhost:8000/api/answers", body, config)
         .then((res) => {
-          console.log(res.data);
           alert("Answer added succesfully");
+          window.location.href = "/";          
           setIsModalOpen(false);
-          window.location.href = "/";
         })
         .catch((e) => {
           console.log(e);
@@ -65,141 +65,155 @@ function Post({ post }) {
     }
   };
   return (
-    <div className="post">
-      <div className="post__info">
-        <Avatar src={post?.user?.photo} />
-        <h4>{post?.user?.userName}</h4>
+    <Container>
+      <div className="post">
+        <div className="post__info">
+          <Avatar src={post?.user?.photo} />
+          <h4>{post?.user?.userName}</h4>
 
-        <small>
-          <LastSeen date={post?.createdAt} />
-        </small>
-      </div>
-      <div className="post__body">
-        <div className="post__question">
-          <p>{post?.questionName}</p>
-          <button
-            onClick={() => {
-              setIsModalOpen(true);
-              console.log(post?._id);
-            }}
-            className="post__btnAnswer"
-          >
-            Answer
-          </button>
-          <Modal
-            open={isModalOpen}
-            closeIcon={Close}
-            onClose={() => setIsModalOpen(false)}
-            closeOnEsc
-            center
-            closeOnOverlayClick={false}
-            styles={{
-              overlay: {
-                height: "auto",
-              },
-            }}
-          >
-            <div className="modal__question">
-              <h1>{post?.questionName}</h1>
-              <p>
-                asked by <span className="name">{post?.user?.userName}</span> on{" "}
-                <span className="name">
-                  {new Date(post?.createdAt).toLocaleString()}
-                </span>
-              </p>
-            </div>
-            <div className="modal__answer">
-              <ReactQuill
-                value={answer}
-                onChange={handleQuill}
-                placeholder="Enter your answer"
-              />
-            </div>
-            <div className="modal__button">
-              <button className="cancle" onClick={() => setIsModalOpen(false)}>
-                Cancel
-              </button>
-              <button onClick={handleSubmit} type="submit" className="add">
-                Add Answer
-              </button>
-            </div>
-          </Modal>
+          <small>
+            <LastSeen date={post?.createdAt} />
+          </small>
         </div>
-        {post.questionUrl !== "" && <img src={post.questionUrl} alt="url" />}
-      </div>
-      <div className="post__footer">
-        <div className="post__footerAction">
-          <ArrowUpwardOutlined />
-          <ArrowDownwardOutlined />
-        </div>
-        <RepeatOneOutlined />
-        <ChatBubbleOutlined />
-        <div className="post__footerLeft">
-          <ShareOutlined />
-          <MoreHorizOutlined />
-        </div>
-      </div>
-      <p
-        style={{
-          color: "rgba(0,0,0,0.5)",
-          fontSize: "12px",
-          fontWeight: "bold",
-          margin: "10px 0",
-        }}
-      >
-        {post?.allAnswers.length} Answer(s)
-      </p>
+        <div className="">
+          <div className="">
+            <Row>
+              <Col>
+                <p>{post?.questionName}</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <button
+                  onClick={() => {
+                    setIsModalOpen(true);
+                  }}
+                  className="post__btnAnswer"
+                >
+                  Answer
+                </button>
+              </Col>
+            </Row>
 
-      <div
-        style={{
-          margin: "5px 0px 0px 0px ",
-          padding: "5px 0px 0px 20px",
-          borderTop: "1px solid lightgray",
-        }}
-        className="post__answer"
-      >
-        {post?.allAnswers?.map((_a) => (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                padding: "10px 5px",
-                borderTop: "1px solid lightgray",
+            <Modal
+              open={isModalOpen}
+              closeIcon={Close}
+              onClose={() => setIsModalOpen(false)}
+              closeOnEsc
+              center
+              closeOnOverlayClick={false}
+              styles={{
+                overlay: {
+                  height: "auto",
+                },
               }}
-              className="post-answer-container"
             >
+              <div className="modal__question">
+                <h1>{post?.questionName}</h1>
+                <p>
+                  asked by <span className="name">{post?.user?.userName}</span>{" "}
+                  on{" "}
+                  <span className="name">
+                    {new Date(post?.createdAt).toLocaleString()}
+                  </span>
+                </p>
+              </div>
+              <div className="modal__answer">
+                <ReactQuill
+                  value={answer}
+                  onChange={handleQuill}
+                  placeholder="Enter your answer"
+                />
+              </div>
+              <div className="modal__button">
+                <button
+                  className="cancle"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button onClick={handleSubmit} type="submit" className="add">
+                  Add Answer
+                </button>
+              </div>
+            </Modal>
+          </div>
+          {post.questionUrl !== "" && <img src={post.questionUrl} alt="url" />}
+        </div>
+        <div className="post__footer">
+          <div className="post__footerAction">
+            <ArrowUpwardOutlined />
+            <ArrowDownwardOutlined />
+          </div>
+          <RepeatOneOutlined />
+          <ChatBubbleOutlined />
+          <div className="post__footerLeft">
+            <ShareOutlined />
+            <MoreHorizOutlined />
+          </div>
+        </div>
+        <p
+          style={{
+            color: "rgba(0,0,0,0.5)",
+            fontSize: "12px",
+            fontWeight: "bold",
+            margin: "10px 0",
+          }}
+        >
+          {post?.allAnswers.length} Answer(s)
+        </p>
+
+        <div
+          style={{
+            margin: "5px 0px 0px 0px ",
+            padding: "5px 0px 0px 20px",
+            borderTop: "1px solid lightgray",
+          }}
+          className="post__answer"
+        >
+          {post?.allAnswers?.map((_a) => (
+            <>
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                  fontSize: "12px",
-                  fontWeight: 600,
-                  color: "#888",
+                  flexDirection: "column",
+                  width: "100%",
+                  padding: "10px 5px",
+                  borderTop: "1px solid lightgray",
                 }}
-                className="post-answered"
+                className="post-answer-container"
               >
-                <Avatar src={_a?.user?.photo} />
                 <div
                   style={{
-                    margin: "0px 10px",
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    color: "#888",
                   }}
-                  className="post-info"
+                  className="post-answered"
                 >
-                  <p>{_a?.user?.userName}</p>
-                  <span>
-                    <LastSeen date={_a?.createdAt} />
-                  </span>
+                  <Avatar src={_a?.user?.photo} />
+                  <div
+                    style={{
+                      margin: "0px 10px",
+                    }}
+                    className="post-info"
+                  >
+                    <p>{_a?.user?.userName}</p>
+                    <span>
+                      <LastSeen date={_a?.createdAt} />
+                    </span>
+                  </div>
                 </div>
+                <div className="post-answer">{ReactHtmlParser(_a?.answer)}</div>
               </div>
-              <div className="post-answer">{ReactHtmlParser(_a?.answer)}</div>
-            </div>
-          </>
-        ))}
+            </>
+          ))}
+        </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

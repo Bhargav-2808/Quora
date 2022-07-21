@@ -1,6 +1,6 @@
 import React from "react";
 import "./NLogin.css";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
@@ -10,6 +10,7 @@ import {Row,Col} from 'react-bootstrap'
 import axios from 'axios';
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,6 +21,7 @@ const SignUp = () => {
     const res = await axios.post("http://localhost:8000/api/register",data).then(
       (result)=>{
         //console.log(result)
+        navigate("/login");
       }
     ).catch((err)=>{
       console.log(err);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import FeaturedPlayListOutlinedIcon from "@material-ui/icons/FeaturedPlayListOutlined";
 import {
@@ -45,14 +45,11 @@ function QuoraHeader() {
       await axios
         .post("http://localhost:8000/api/questions", body, config)
         .then((res) => {
-          console.log(res.data);
-          alert(res.data.message);
           window.location.href = "/";
+          alert(res.data.message);
+          
         })
-        .catch((e) => {
-          console.log(e);
-          alert("Error in adding question");
-        });
+        .catch((e) => {});
     }
   };
 
@@ -70,6 +67,7 @@ function QuoraHeader() {
     localStorage.clear("user");
     navigate("/login");
   };
+
   return (
     <div className="qHeader">
       <div className="qHeader-content">
