@@ -2,13 +2,13 @@ import questionDB from "../models/Question.js";
 
 const questionRouter= async (req, res) => {
   console.log(req.body);
-
   try {
     await questionDB
       .create({
         questionName: req.body.questionName,
         questionUrl: req.body.questionUrl,
         user: req.body.user,
+        category: req.body.category?req.body.category:"General"
       })
       .then(() => {
         res.status(201).send({
@@ -61,4 +61,40 @@ const getData= async (req, res) => {
   }
 };
 
-export {questionRouter,getData};
+const getCategoryData= async (req, res) => {
+  try {
+    await questionDB
+      .aggregate([
+        {
+          $match:{
+            category:req.params.category
+          }
+        },
+        {
+          $lookup: {
+            from: "answers", //collection to join
+            localField: "_id", //field from input document
+            foreignField: "questionId",
+            as: "allAnswers", //output array field
+          },
+        },
+      ])
+      .exec()
+      .then((doc) => {
+        res.status(200).send(doc);
+      })
+      .catch((error) => {
+        res.status(500).send({
+          status: false,
+          message: "Unable to get the question details",
+        });
+      });
+  } catch (e) {
+    res.status(500).send({
+      status: false,
+      message: "Unexpected error",
+    });
+  }
+};
+
+export {questionRouter,getData,getCategoryData};
