@@ -3,6 +3,7 @@ import  mongoose  from "mongoose";
 const QuestionSchema = new mongoose.Schema({
   questionName: String,
   questionUrl: String,
+  category:String,
   createdAt: {
     type: Date,
     default: Date.now(),
