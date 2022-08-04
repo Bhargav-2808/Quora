@@ -5,28 +5,30 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
-import {Row,Col} from 'react-bootstrap';
+import { Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
 const NLogin = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = async(data) => {
-    const res = await axios.post("http://localhost:8000/api/login",data).then().catch((err)=>{
-      console.log(err);
-    });
-    if(res){
-      localStorage.setItem("user",JSON.stringify(res?.data?.user));
+  const onSubmit = async (data) => {
+    const res = await axios
+      .post("http://localhost:8000/api/login", data)
+      .then()
+      .catch((err) => {
+        console.log(err);
+      });
+    if (res) {
+      localStorage.setItem("user", JSON.stringify(res?.data?.user));
       navigate("/");
     }
-
-  }
+  };
   return (
     <>
       <Container className="my-3 mainContainer">
@@ -57,7 +59,7 @@ const NLogin = () => {
                     type="password"
                     placeholder="Min. 5 Char"
                     name="password"
-                    {...register("password", { required: true })}
+                    {...register("password", { required: true})}
                   />
                 </Col>
               </Row>
@@ -66,9 +68,15 @@ const NLogin = () => {
                 Login To Continue
               </Button>
               <h6 className="text-secondary">
-                Not registered yet?{" "}
+                  Not registered yet?{" "}
                 <Link to="/signup" className="text-dark">
                   Create an Account.{" "}
+                </Link>
+              </h6>
+              <h6 className="text-secondary">
+                Forgote Password &nbsp;
+                <Link to="/sendotp" className="text-dark">
+                  : Forgote Password{" "}
                 </Link>
               </h6>
             </Form>

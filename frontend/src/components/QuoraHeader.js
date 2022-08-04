@@ -14,10 +14,6 @@ import { Avatar, Button, Input } from "@material-ui/core";
 import "./css/QuoraHeader.css";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
-import axios from "axios";
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
-import { logout, selectUser } from "../feature/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { fetchFeedList } from "../app/thunk-async";
@@ -29,7 +25,6 @@ function QuoraHeader() {
   const [question, setQuestion] = useState("");
   const Close = <CloseIcon />;
   const dispatch = useDispatch();
-  //const user = useSelector(selectUser);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
