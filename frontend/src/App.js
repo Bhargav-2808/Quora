@@ -26,24 +26,24 @@ const Protected = (props)=>{
 }
 
 function App() {
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  // const user = useSelector(selectUser);
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (authUser) => {
-      if (authUser) {
-        dispatch(
-          login({
-            userName: authUser.displayName,
-            photo: authUser.photoURL,
-            email: authUser.email,
-            uid: authUser.uid,
-          })
-        );
-        console.log("AuthUser", authUser);
-      }
-    });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (authUser) => {
+  //     if (authUser) {
+  //       dispatch(
+  //         login({
+  //           userName: authUser.displayName,
+  //           photo: authUser.photoURL,
+  //           email: authUser.email,
+  //           uid: authUser.uid,
+  //         })
+  //       );
+  //       console.log("AuthUser", authUser);
+  //     }
+  //   });
+  // }, [dispatch]);
   return (
     <div className="App">
       {/* <h1>This is for testing</h1> */}

@@ -6,12 +6,12 @@ import { selectUser } from "../feature/userSlice";
 import "./css/QuoraBox.css";
 
 function QuoraBox() {
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   return (
     <Container>
       <div className="quoraBox">
         <div className="quoraBox__info">
-          <Avatar src={user?.photo} />
+          {/* <Avatar src={user?.photo} /> */}
           <h5>What is your question or link?</h5>
         </div>
       </div>

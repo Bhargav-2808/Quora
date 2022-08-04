@@ -20,6 +20,8 @@ import { signOut } from "firebase/auth";
 import { logout, selectUser } from "../feature/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
+import { fetchFeedList } from "../app/thunk-async";
+import { postQuestions } from "../service/question.service";
 
 function QuoraHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,43 +29,26 @@ function QuoraHeader() {
   const [question, setQuestion] = useState("");
   const Close = <CloseIcon />;
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  //const user = useSelector(selectUser);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (question !== "") {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
       const body = {
         questionName: question,
         questionUrl: inputUrl,
-        user: user,
+        user: [],
       };
-      await axios
-        .post("http://localhost:8000/api/questions", body, config)
-        .then((res) => {
-          window.location.href = "/";
-          alert(res.data.message);
-          
+
+        await postQuestions(body).then((res) => {
+         dispatch(fetchFeedList());
+         setIsModalOpen(false);
         })
         .catch((e) => {});
     }
   };
 
   const handleLogout = () => {
-    // if (window.confirm("Are you sure to logout ?")) {
-    //   signOut(auth)
-    //     .then(() => {
-    //       dispatch(logout());
-    //       console.log("Logged out");
-    //     })
-    //     .catch(() => {
-    //       console.log("error in logout");
-    //     });
-    // }
     localStorage.clear("user");
     navigate("/login");
   };
@@ -120,7 +105,7 @@ function QuoraHeader() {
               <h5>Share Link</h5>
             </div>
             <div className="modal__info">
-              <Avatar src={user?.photo} className="avatar" />
+              {/* <Avatar src={user?.photo} className="avatar" /> */}
               <div className="modal__scope">
                 <PeopleAltOutlined />
                 <p>Public</p>
