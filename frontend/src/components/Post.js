@@ -20,6 +20,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFeedList } from "../app/thunk-async";
 import { postAnswers } from "../service/answer.service";
+// import { ToastContainer, toast } from 'react-toastify';
 
 function LastSeen({ date }) {
   return (
@@ -51,11 +52,13 @@ function Post({ post }) {
       };
       await postAnswers(body)
         .then((res) => {
+          // toast.success(res?.message);
+          console.log(res?.message);
           dispatch(fetchFeedList());
           setIsModalOpen(false);
         })
         .catch((e) => {
-          console.log(e);
+          // toast.success(e);
         });
     }
   };
@@ -209,6 +212,17 @@ function Post({ post }) {
           ))}
         </div>
       </div>
+      {/* <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      /> */}
     </Container>
   );
 }

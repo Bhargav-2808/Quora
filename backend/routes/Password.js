@@ -14,6 +14,7 @@ const sendOTP = async (req, res) => {
   try {
     const { number } = req.body;
     otpCode = Math.floor(100000 + Math.random() * 900000);
+    console.log(number);
 
     client.messages
       .create({
@@ -26,10 +27,10 @@ const sendOTP = async (req, res) => {
           Message: "OTP sent to your registered mobile number",
           MessageID: message.sid,
         })
-      );
+      ).done();
     // try {
     //     const luser = await loginDB.findOne({ phone: number });
-    //     console.log(luser)
+    //     console.log(luser);
     //     if(luser)
     //     {
     //         otpCode=Math.floor(100000 + Math.random() * 900000);
@@ -41,7 +42,7 @@ const sendOTP = async (req, res) => {
     //          })
     //         .then(message =>
     //             res.status(200).json({Message:"OTP sent to your registered mobile number",MessageID:message.sid})
-    //         );
+    //         ).done();
     //     }
     // } catch (error) {
     //     console.log(error);

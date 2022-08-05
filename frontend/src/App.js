@@ -6,7 +6,7 @@ import Quora from "./components/Quora";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import SendOTP from "./components/auth/SendOTP";
 import VerifyOTP from "./components/auth/VerifyOTP";
-import ChangePwd from "./components/auth/ChangePwd";
+
 
 const Protected = (props) => {
   const { Comp } = props;
@@ -30,7 +30,6 @@ function App() {
         <Route exact path="/" element={<Protected Comp={Quora} />} />
         <Route exact path="/sendotp" element={<SendOTP  />} />
         <Route exact path="/verifyotp" element={<VerifyOTP  />}  />
-        <Route exact path="/changePwd" element={<ChangePwd  />} />
         <Route exact path="/signup" element={<SignUp />} />
         <Route exact path="/login" element={<NLogin />} />
       </Routes>

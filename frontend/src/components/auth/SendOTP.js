@@ -15,7 +15,10 @@ const SendOTP = () => {
 
   const onSubmit = async (data) =>{
     const res =await sendotp(data);
-    console.loglog(res);
+    if(res)
+    {
+      navigate("/verifyotp");
+    }
   }
 
   return (
@@ -30,16 +33,15 @@ const SendOTP = () => {
           <hr />
           <Row>
             <Col>
-              <h5 className="mb-2">Registerd Number*</h5>
+              <h5 className="mb-2">Registerd Email*</h5>
               <Form.Control
                 required
                 className="fcontrol mb-4"
-                type="number"
-                placeholder="9998979495"
+                type="email"
+                placeholder="abc@gmail.com"
                 name="number"
-                {...register("number", { pattern:/^[0-9]{1,10}$/  })}
+                {...register("email", { required:true  })}
               />
-              {errors.number && <span style={{color:"red",marginBottom:"5px" }} >Max 10 digit</span>}
             </Col>
           </Row>
 
