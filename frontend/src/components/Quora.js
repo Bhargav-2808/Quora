@@ -4,18 +4,29 @@ import QuoraHeader from "./QuoraHeader";
 import Sidebar from "./Sidebar";
 import Widget from "./Widget";
 import "./css/Quora.css";
+import { Col, Container, Row } from "react-bootstrap";
 
 function Quora() {
   return (
-    <div className="quora">
+    <div className="">
       <QuoraHeader />
-      <div className="quora__contents">
-        <div className="quora__content">
-          <Sidebar />
-          <Feed />
-          <Widget />
-        </div>
-      </div>
+      <Container fluid>
+        <Row>
+          <div className="quora__contents">
+            <div className="quora__content">
+              <Col xl={3} className="">
+                <Sidebar />
+              </Col>
+              <Col xl={6} className="">
+                <Feed />
+              </Col>
+              <Col xl={3} className="">
+                <Widget />
+              </Col>
+            </div>
+          </div>
+        </Row>
+      </Container>
     </div>
   );
 }

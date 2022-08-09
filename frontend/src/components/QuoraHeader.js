@@ -10,37 +10,58 @@ import {
   ExpandMore,
 } from "@material-ui/icons";
 import CloseIcon from "@material-ui/icons/Close";
-import { Avatar, Button, Input } from "@material-ui/core";
+import {
+  Avatar,
+  Button,
+  FormControl,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@material-ui/core";
 import "./css/QuoraHeader.css";
-import { Modal } from "react-responsive-modal";
-import "react-responsive-modal/styles.css";
+
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { fetchFeedList } from "../app/thunk-async";
 import { postQuestions } from "../service/question.service";
+import { Form, Modal } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
 function QuoraHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const [question, setQuestion] = useState("");
-  const Close = <CloseIcon />;
-  const dispatch = useDispatch();
+  const [category, setCategory] = React.useState("");
+  const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = async () => {
-    if (question !== "") {
-      const body = {
-        questionName: question,
-        questionUrl: inputUrl,
-        user: [],
-      };
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
 
-        await postQuestions(body).then((res) => {
-         dispatch(fetchFeedList());
-         setIsModalOpen(false);
-        })
-        .catch((e) => {});
-    }
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const dispatch = useDispatch();
+
+  const onSubmit = async (data) => {
+    await postQuestions(data)
+      .then((res) => {
+        dispatch(fetchFeedList());
+        setIsModalOpen(false);
+      })
+      .catch((e) => {});
+   
   };
 
   const handleLogout = () => {
@@ -83,75 +104,66 @@ function QuoraHeader() {
 
           <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
           <Modal
-            open={isModalOpen}
-            closeIcon={Close}
-            onClose={() => setIsModalOpen(false)}
-            closeOnEsc
-            center
-            closeOnOverlayClick={false}
-            styles={{
-              overlay: {
-                height: "auto",
-              },
-            }}
+            show={isModalOpen}
+            onHide={() => setIsModalOpen(false)}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
           >
-            <div className="modal__title">
-              <h5>Add Question</h5>
-              <h5>Share Link</h5>
-            </div>
-            <div className="modal__info">
-              {/* <Avatar src={user?.photo} className="avatar" /> */}
-              <div className="modal__scope">
-                <PeopleAltOutlined />
-                <p>Public</p>
-                <ExpandMore />
-              </div>
-            </div>
-            <div className="modal__Field">
-              <Input
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                type=" text"
-                placeholder="Start your question with 'What', 'How', 'Why', etc. "
-              />
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <input
-                  type="text"
-                  value={inputUrl}
-                  onChange={(e) => setInputUrl(e.target.value)}
-                  style={{
-                    margin: "5px 0",
-                    border: "1px solid lightgray",
-                    padding: "10px",
-                    outline: "2px solid #000",
-                  }}
-                  placeholder="Optional: inclue a link that gives context"
+            <Form
+              onSubmit={handleSubmit(onSubmit)}
+              encType="multipart/form-data"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                  Add Question
+                </Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+                <FormControl style={{ minWidth: "120", width: "100%" }}>
+                  <InputLabel id="demo-controlled-open-select-label">
+                    Category
+                  </InputLabel>
+                  <Select
+                    labelId="demo-controlled-open-select-label"
+                    id="demo-controlled-open-select"
+                    open={open}
+                    name="category"
+                    onClose={handleClose}
+                    onOpen={handleOpen}
+                    value={category}
+                    onChange={handleChange}
+                    {...register("category", { required: true })}
+                  >
+                    <MenuItem value="General">General</MenuItem>
+                    <MenuItem value={"Ten"}>Ten</MenuItem>
+                    <MenuItem value={"Twenty"}>Twenty</MenuItem>
+                    <MenuItem value={"Thirty"}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <Input
+                  style={{ width: "100%", marginTop: "3rem" }}
+                  type=" text"
+                  placeholder="Start your question with 'What', 'How', 'Why', etc. "
+                  name="question"
+                  {...register("question", { required: true })}
                 />
-                {inputUrl !== "" && (
-                  <img
-                    style={{
-                      height: "40vh",
-                      objectFit: "contain",
-                    }}
-                    src={inputUrl}
-                    alt="displayimage"
-                  />
-                )}
-              </div>
-            </div>
-            <div className="modal__buttons">
-              <button className="cancle" onClick={() => setIsModalOpen(false)}>
-                Cancel
-              </button>
-              <button onClick={handleSubmit} type="submit" className="add">
-                Add Question
-              </button>
-            </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  color="success"
+                  variant="outlined"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Close
+                </Button>
+                <Button color="success" variant="outlined" type="submit">
+                  Submit
+                </Button>
+              </Modal.Footer>
+            </Form>
           </Modal>
         </div>
       </div>
