@@ -88,26 +88,5 @@ const verifyOtpAndUpdate = async(req,res) =>{
         res.status(500).json(error.message);
     }
 }
-const verifyOtpAndUpdate = async (req, res) => {
-  try {
-    const { user, otp, password } = req.body;
-    if (otp == otpCode) {
-      const updatedUser = await loginDB.findOneAndUpdate(
-        { phone: user.phone },
-        { $set: { password } },
-        { new: true }
-      );
-      if (updatedUser) {
-        res.send(200).json({ Message: "Password Updated Successfully" });
-      } else {
-        res.send(400).json({ Message: "Error in updating password" });
-      }
-    } else {
-      res.status(400).json({ Message: "Enter correct otp" });
-    }
-  } catch (error) {
-    res.status(500).json(error.message);
-  }
-};
 
 export { sendOTP, verifyOtpAndUpdate };
