@@ -1,13 +1,12 @@
 .widget {
-  flex: 0.2;
-  margin-left: 20px;
+  
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
   border: 1px solid lightgray;
   border-radius: 5px;
   height: fit-content;
   background-color: white;
+  position: fixed;
 }
 
 .widget__header {

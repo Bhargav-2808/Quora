@@ -1,13 +1,12 @@
 import questionDB from "../models/Question.js";
 
 const questionRouter= async (req, res) => {
-  console.log(req.body);
+  //console.log(req?.body?.category);
+  //console.log(req.body?.question);
   try {
     await questionDB
       .create({
-        questionName: req.body.questionName,
-        questionUrl: req.body.questionUrl,
-        user: req.body.user,
+        questionName: req.body.question,
         category: req.body.category?req.body.category:"General"
       })
       .then(() => {

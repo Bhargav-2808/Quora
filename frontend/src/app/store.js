@@ -1,8 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../feature/userSlice";
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import thunk from 'redux-thunk';
+import { feedReducer } from './reducers/feed.reducer';
 
-export default configureStore({
-  reducer: {
-    user: userReducer,
-  },
+
+const middleware = [thunk];
+const reducer = combineReducers({
+    feed:feedReducer
 });
+
+const store = configureStore({reducer,middleware});
+
+export default store;

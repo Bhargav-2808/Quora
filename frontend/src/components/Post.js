@@ -15,11 +15,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ReactTimeAgo from "react-time-ago";
-import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
-import { useSelector } from "react-redux";
-import { selectUser } from "../feature/userSlice";
 import { Container, Row, Col } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchFeedList } from "../app/thunk-async";
+import { postAnswers } from "../service/answer.service";
+// import { ToastContainer, toast } from 'react-toastify';
 
 function LastSeen({ date }) {
   return (
@@ -31,36 +32,33 @@ function LastSeen({ date }) {
 function Post({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer, setAnswer] = useState("");
+  const feedlist = useSelector((state) => state.feed.feedData);
+  const dispatch = useDispatch();
   const Close = <CloseIcon />;
-
-  const user = useSelector(selectUser);
 
   const handleQuill = (value) => {
     setAnswer(value);
   };
-  // console.log(answer);
+
+  useEffect(() => {
+    dispatch(fetchFeedList());
+  }, []);
 
   const handleSubmit = async () => {
     if (post?._id && answer !== "") {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
       const body = {
         answer: answer,
         questionId: post?._id,
-        user: user,
       };
-      await axios
-        .post("http://localhost:8000/api/answers", body, config)
+      await postAnswers(body)
         .then((res) => {
-          alert("Answer added succesfully");
-          window.location.href = "/";          
+          // toast.success(res?.message);
+          console.log(res?.message);
+          dispatch(fetchFeedList());
           setIsModalOpen(false);
         })
         .catch((e) => {
-          console.log(e);
+          // toast.success(e);
         });
     }
   };
@@ -68,8 +66,8 @@ function Post({ post }) {
     <Container>
       <div className="post">
         <div className="post__info">
-          <Avatar src={post?.user?.photo} />
-          <h4>{post?.user?.userName}</h4>
+          {/* <Avatar src={post?.user?.photo} /> */}
+          {/* <h4>{post?.user?.userName}</h4> */}
 
           <small>
             <LastSeen date={post?.createdAt} />
@@ -111,7 +109,8 @@ function Post({ post }) {
               <div className="modal__question">
                 <h1>{post?.questionName}</h1>
                 <p>
-                  asked by <span className="name">{post?.user?.userName}</span>{" "}
+                  asked by
+                  {/* <span className="name">{post?.user?.userName}</span>{" "} */}
                   on{" "}
                   <span className="name">
                     {new Date(post?.createdAt).toLocaleString()}
@@ -194,14 +193,14 @@ function Post({ post }) {
                   }}
                   className="post-answered"
                 >
-                  <Avatar src={_a?.user?.photo} />
+                  {/* <Avatar src={_a?.user?.photo} /> */}
                   <div
                     style={{
                       margin: "0px 10px",
                     }}
                     className="post-info"
                   >
-                    <p>{_a?.user?.userName}</p>
+                    {/* <p>{_a?.user?.userName}</p> */}
                     <span>
                       <LastSeen date={_a?.createdAt} />
                     </span>
@@ -213,6 +212,17 @@ function Post({ post }) {
           ))}
         </div>
       </div>
+      {/* <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      /> */}
     </Container>
   );
 }
