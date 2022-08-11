@@ -18,6 +18,12 @@ const loginSchema = new mongoose.Schema({
   password:{
     type:String,
   },
+  reset_token:{
+    type:String,
+  },
+  reset_otp:{
+    type:String,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
