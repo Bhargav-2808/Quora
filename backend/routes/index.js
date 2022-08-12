@@ -17,7 +17,7 @@ router.get("/",getData)
 router.get("/:category",getCategoryData)
 router.post("/login",loginRouter)
 router.post("/otp",sendOTP)
-router.post("/verify",verifyOtpAndUpdate)
+router.post("/verify/:token",verifyOtpAndUpdate)
 router.post("/register",registerRouter)
 router.post("/questions", questionRouter);
 router.post("/answers", answerRouter);
