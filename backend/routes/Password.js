@@ -64,7 +64,9 @@ const sendOTP = async(req,res) =>{
 
 const verifyOtpAndUpdate = async(req,res) =>{
     try {
-        const {token,otp,password} = req.body;
+        
+        const {otp,password} = req.body;
+        const {token} = req.params;
         const userExist = await loginDB.findOne({reset_token:token})
         if(!userExist){
             return res.status(404).json({Message:"No User Found"});

@@ -15,9 +15,13 @@ const SendOTP = () => {
 
   const onSubmit = async (data) =>{
     const res =await sendotp(data);
+    console.log(res);
     if(res)
     {
-      navigate("/verifyotp");
+      localStorage.setItem("token",JSON.stringify(res));
+      
+      const tokenInfo = JSON.parse(localStorage.getItem("token"));
+      navigate(`/verifyotp/${tokenInfo?.resetToken}`);
     }
   }
 
@@ -39,11 +43,11 @@ const SendOTP = () => {
                 className="fcontrol mb-4"
                 type="email"
                 placeholder="abc@gmail.com"
-                name="number"
+                name="email"
                 {...register("email", { required:true  })}
               />
             </Col>
-          </Row>
+          </Row>  
 
           <Button variant="dark" className="mb-4" type="submit">
             Send OTP
