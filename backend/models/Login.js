@@ -24,6 +24,11 @@ const loginSchema = new mongoose.Schema({
   reset_otp:{
     type:String,
   },
+  role:{
+    type:String,
+    default:'student',
+    enum:['admin','student']
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
