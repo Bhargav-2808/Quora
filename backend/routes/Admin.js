@@ -13,10 +13,16 @@ const deleteQuestion = async (req,res) =>{
 
 const deleteAnswer = async(req,res) =>{
     const answerID = req.params.id;
-    const removeAnswer = await answerDB.deleteOne({ _id: answerID});
+    try {
+    const removeAnswer = await answerDB.deleteOne({ _id:answerID });
+    console.log(removeAnswer);
     if(removeAnswer){
         return res.status(200).json({Message:"Answer Deleted"});
     }
     res.status(500).json({Message:"Something Went Wrong"});
+    } catch (error) {
+        res.status(500).json({Message:"Something Went Wrong",error});
+    }
+    
 };
 export {deleteQuestion,deleteAnswer};
