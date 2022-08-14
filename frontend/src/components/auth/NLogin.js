@@ -26,7 +26,14 @@ const NLogin = () => {
       });
     if (res) {
       localStorage.setItem("user", JSON.stringify(res?.data?.user));
-      navigate("/");
+      if(res?.data?.user?.role === "admin")
+      {
+        navigate("/admin");
+      }
+      else
+      {
+        navigate("/");
+      }
     }
   };
   return (
