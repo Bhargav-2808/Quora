@@ -50,8 +50,8 @@ function App() {
     <div className="App">
       <Routes>
         <Route exact path="/" element={<Protected Comp={Quora} />} />
-        <Route exact path="/sendotp" element={<SendOTP />} />
-        <Route exact path="/verifyotp" element={<VerifyOTP />} />
+        <Route exact path="/sendotp" element={<SendOTP  />} />
+        <Route exact path="/verifyotp/:token" element={<VerifyOTP  />}  />
         <Route exact path="/signup" element={<SignUp />} />
         <Route exact path="/login" element={<NLogin />} />
         <Route exact path="/admin" element={<ProtectedAdmin Comp={Admin} />} />
