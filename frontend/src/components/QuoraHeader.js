@@ -27,6 +27,7 @@ import { fetchFeedList } from "../app/thunk-async";
 import { postQuestions } from "../service/question.service";
 import { Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import SearchQ from "./Search";
 
 function QuoraHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,7 +62,6 @@ function QuoraHeader() {
         setIsModalOpen(false);
       })
       .catch((e) => {});
-   
   };
 
   const handleLogout = () => {
@@ -95,10 +95,7 @@ function QuoraHeader() {
             <NotificationsOutlined />
           </div>
         </div>
-        <div className="qHeader__input">
-          <Search />
-          <input type="text" placeholder="Search questions" />
-        </div>
+        <SearchQ/>
         <div className="qHeader__Rem">
           <Button onClick={handleLogout}>Log Out</Button>
 
@@ -171,4 +168,4 @@ function QuoraHeader() {
   );
 }
 
-export default QuoraHeader;
+export  {QuoraHeader};
