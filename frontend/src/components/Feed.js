@@ -11,33 +11,49 @@ import searchContext from "../app/context/searchContext";
 
 function Feed() {
   const feedlist = useSelector((state) => state.feed.feedData);
-  const [filterFeedList,setFilterFeedList] = useState([]);
+  const [filterFeedList, setFilterFeedList] = useState([]);
 
-  const {search} = useContext(searchContext);
-
+  const { search,categorySearch } = useContext(searchContext);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(fetchFeedList());
-    setFilterFeedList(feedlist?.data)
+    setFilterFeedList(feedlist?.data);
   }, [feedlist]);
+  
+  useEffect(() => {
+    dispatch(fetchFeedList());
+  }, []);
 
   useEffect(() => {
+ 
+
     if (search) {
       let filterfeed = feedlist?.data?.filter(
         (item) =>
           item?.questionName &&
-          item?.questionName
-            ?.toLowerCase()
-            ?.includes(search.toLowerCase()),
+          item?.questionName?.toLowerCase()?.includes(search.toLowerCase())
       );
       setFilterFeedList(filterfeed);
     } else {
       setFilterFeedList(feedlist?.data);
     }
-  }, [search]);
-  console.log(filterFeedList);
+  }, [search,categorySearch]);
+
+  useEffect(() => {
+    if (categorySearch) {
+      let filterfeed = feedlist?.data?.filter(
+        (item) =>
+          item?.category &&
+          item?.category?.toLowerCase()?.includes(categorySearch.toLowerCase())
+      );
+      setFilterFeedList(filterfeed);
+    } else {
+      setFilterFeedList(feedlist?.data);
+    }
+  }, [categorySearch])
+  
+  console.log(filterFeedList,categorySearch);
   return (
     <div className="feed">
       {/* <div className="qHeader__input">

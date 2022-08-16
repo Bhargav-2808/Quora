@@ -137,7 +137,6 @@ function Post({ post }) {
               </div>
             </Modal>
           </div>
-          {post.questionUrl !== "" && <img src={post.questionUrl} alt="url" />}
         </div>
         <div className="post__footer">
           <div className="post__footerAction">

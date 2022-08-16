@@ -28,6 +28,7 @@ import { postQuestions } from "../service/question.service";
 import { Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import SearchQ from "./Search";
+import Category from "../app/Category";
 
 function QuoraHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,6 +57,7 @@ function QuoraHeader() {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
+    console.log(data);
     await postQuestions(data)
       .then((res) => {
         dispatch(fetchFeedList());
@@ -94,8 +96,9 @@ function QuoraHeader() {
           <div className="qHeader__icon">
             <NotificationsOutlined />
           </div>
+          <Category />
         </div>
-        <SearchQ/>
+        <SearchQ />
         <div className="qHeader__Rem">
           <Button onClick={handleLogout}>Log Out</Button>
 
@@ -118,27 +121,16 @@ function QuoraHeader() {
               </Modal.Header>
 
               <Modal.Body>
-                <FormControl style={{ minWidth: "120", width: "100%" }}>
-                  <InputLabel id="demo-controlled-open-select-label">
-                    Category
-                  </InputLabel>
-                  <Select
-                    labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
-                    open={open}
-                    name="category"
-                    onClose={handleClose}
-                    onOpen={handleOpen}
-                    value={category}
-                    onChange={handleChange}
-                    {...register("category", { required: true })}
-                  >
-                    <MenuItem value="General">General</MenuItem>
-                    <MenuItem value={"Ten"}>Ten</MenuItem>
-                    <MenuItem value={"Twenty"}>Twenty</MenuItem>
-                    <MenuItem value={"Thirty"}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
+                <select
+                  name="category"
+                  id="cars"
+                  {...register("category", { required: true })}
+                >
+                  <option selected value="General">General</option>
+                  <option value="Frontend">Frontend</option>
+                  <option value="Backend">Backend</option>
+                  <option value="Web Dev">Web Dev</option>
+                </select>
 
                 <Input
                   style={{ width: "100%", marginTop: "3rem" }}
@@ -168,4 +160,4 @@ function QuoraHeader() {
   );
 }
 
-export  {QuoraHeader};
+export { QuoraHeader };

@@ -14,13 +14,10 @@ function Quora() {
         <Row>
           <div className="quora__contents">
             <div className="quora__content">
-              <Col xl={3} className="">
-                <Sidebar />
-              </Col>
-              <Col xl={6} className="">
+              <Col xl={8} className="d-flex justify-content-center">
                 <Feed />
               </Col>
-              <Col xl={3} className="">
+              <Col xl={4} className="d-flex justify-content-center">
                 <Widget />
               </Col>
             </div>
