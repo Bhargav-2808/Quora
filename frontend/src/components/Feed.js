@@ -38,7 +38,7 @@ function Feed() {
     } else {
       setFilterFeedList(feedlist?.data);
     }
-  }, [search,categorySearch]);
+  }, [search]);
 
   useEffect(() => {
     if (categorySearch) {
