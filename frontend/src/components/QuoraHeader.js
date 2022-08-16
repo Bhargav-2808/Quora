@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchFeedList } from "../app/thunk-async";
 import { postQuestions } from "../service/question.service";
-import { Form, Modal } from "react-bootstrap";
+import { Col, Form, Modal, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import SearchQ from "./Search";
 import Category from "../app/Category";
@@ -121,16 +121,23 @@ function QuoraHeader() {
               </Modal.Header>
 
               <Modal.Body>
-                <select
-                  name="category"
-                  id="cars"
-                  {...register("category", { required: true })}
-                >
-                  <option selected value="General">General</option>
-                  <option value="Frontend">Frontend</option>
-                  <option value="Backend">Backend</option>
-                  <option value="Web Dev">Web Dev</option>
-                </select>
+                <Row>
+                  <Col>
+                    <select
+                      name="category"
+                      id="cars"
+                      {...register("category", { required: true })}
+                    >
+                      <option selected value="General">
+                        General
+                      </option>
+                      <option value="Frontend">Frontend</option>
+                      <option value="Backend">Backend</option>
+                      <option value="Web Dev">Web Dev</option>
+                    </select>
+                  </Col>
+                 
+                </Row>
 
                 <Input
                   style={{ width: "100%", marginTop: "3rem" }}

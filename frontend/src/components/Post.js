@@ -19,7 +19,7 @@ import ReactHtmlParser from "html-react-parser";
 import { Container, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFeedList } from "../app/thunk-async";
-import { postAnswers } from "../service/answer.service";
+import { postAnswers, postAnswersImage } from "../service/answer.service";
 // import { ToastContainer, toast } from 'react-toastify';
 
 function LastSeen({ date }) {
@@ -32,8 +32,10 @@ function LastSeen({ date }) {
 function Post({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer, setAnswer] = useState("");
+  const [file, setFile] = useState(null);
   const feedlist = useSelector((state) => state.feed.feedData);
   const dispatch = useDispatch();
+  let formdata = new FormData();
   const Close = <CloseIcon />;
 
   const handleQuill = (value) => {
@@ -46,10 +48,27 @@ function Post({ post }) {
 
   const handleSubmit = async () => {
     if (post?._id && answer !== "") {
+      formdata.append("answer", answer);
+      formdata.append("questionId", post?._id);
+      formdata.append("answerImage", file);
+
       const body = {
         answer: answer,
         questionId: post?._id,
       };
+
+      if (file) {
+        await postAnswersImage(formdata)
+          .then((res) => {
+            // toast.success(res?.message);
+            console.log(res?.message);
+            dispatch(fetchFeedList());
+            setIsModalOpen(false);
+          })
+          .catch((e) => {
+            // toast.success(e);
+          });
+      }
       await postAnswers(body)
         .then((res) => {
           // toast.success(res?.message);
@@ -116,6 +135,14 @@ function Post({ post }) {
                     {new Date(post?.createdAt).toLocaleString()}
                   </span>
                 </p>
+
+                <input
+                  type="file"
+                  name="answerImage"
+                  onChange={(e) => {
+                    setFile(e.target.files[0]);
+                  }}
+                />
               </div>
               <div className="modal__answer">
                 <ReactQuill
