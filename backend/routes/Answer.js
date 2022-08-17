@@ -52,7 +52,7 @@ const answerRouterWithImage= async (req, res) => {
   } catch (e) {
     res.status(500).send({
       status: false,
-      message: "Error while adding answer",
+      message: e.message,
     });
   }
 };
