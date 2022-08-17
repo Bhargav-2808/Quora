@@ -12,6 +12,7 @@ const QuestionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Answers",
   },
+  imagePath: String,
   user: Object,
 });
 

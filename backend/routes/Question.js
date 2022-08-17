@@ -1,4 +1,5 @@
 import questionDB from "../models/Question.js";
+import paperDB from "../models/Paper.js";
 
 const questionRouter= async (req, res) => {
   //console.log(req?.body?.category);
@@ -96,4 +97,60 @@ const getCategoryData= async (req, res) => {
   }
 };
 
-export {questionRouter,getData,getCategoryData};
+const questionRouterWithImage= async (req, res) => {
+  try {
+    await questionDB
+      .create({
+        questionName: req.body.question,
+        category: req.body.category?req.body.category:"General",
+        user: req.body.user,
+        imagePath:req.file.filename
+      })
+      .then(() => {
+        res.status(201).send({
+          status: true,
+          message: "Question added successfully",
+        });
+      })
+      .catch((e) => {
+        res.status(400).send({
+          status: false,
+          message: "Bad request",
+        });
+      });
+  } catch (e) {
+    res.status(500).send({
+      status: false,
+      message: "Error while adding question",
+    });
+  }
+};
+
+const getPapers = async(req,res) =>{
+  try {
+    const papers = await paperDB.find();
+    if(papers.length){
+      res.status(200).json({data:papers,message:"Paper's found"});
+    }
+    res.status(404).json({message:"No paper found"})
+  } catch (error) {
+    res.status(500).json({Message:"Something Went Wrong",error:error.message});
+  }
+};
+
+const downloadPaper = async(req,res) =>{
+  try {
+    const papers = await paperDB.findOne({_id:req.params.id});
+    if(papers){
+      res.setHeader("Content-Disposition", `attachment; filename=${papers.paperName}.pdf`);
+      res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+      res.set("Content-Type", "application/pdf");
+      res.send(pdfData);
+    }
+    res.status(404).json({message:"No paper found"})
+  } catch (error) {
+    res.status(500).json({Message:"Something Went Wrong",error:error.message});
+  }
+};
+
+export {questionRouter,getData,getCategoryData,questionRouterWithImage,getPapers,downloadPaper};

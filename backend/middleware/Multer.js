@@ -1,8 +1,8 @@
 import multer from 'multer';
 
-const storage=multer.diskStorage({
+const imageStorage=multer.diskStorage({
     destination:(req,file,cb)=>{
-        cb(null,"../frontend/uploads");
+        cb(null,"../frontend/uploads/images");
     },
     filename:(req,file,cb)=>{
         const extension=file.originalname.slice(file.originalname.lastIndexOf("."));
@@ -11,6 +11,18 @@ const storage=multer.diskStorage({
     }
 })
 
-const store = multer({storage});
+const paperStorage=multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,"../frontend/uploads/papers");
+    },
+    filename:(req,file,cb)=>{
+        const extension=file.originalname.slice(file.originalname.lastIndexOf("."));
+        // const fileName=req.body.questionId 
+        cb(null,Date.now()+extension);
+    }
+})
 
-export {store};
+const imageStore = multer({storage:imageStorage});
+const paperStore = multer({storage:paperStorage});
+
+export {imageStore,paperStore};
