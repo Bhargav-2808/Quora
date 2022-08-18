@@ -1,5 +1,7 @@
 import questionDB from "../models/Question.js";
 import paperDB from "../models/Paper.js";
+import {readFileSync} from "fs";
+import path from "path";
 
 const questionRouter= async (req, res) => {
   //console.log(req?.body?.category);
@@ -140,14 +142,22 @@ const getPapers = async(req,res) =>{
 
 const downloadPaper = async(req,res) =>{
   try {
-    const papers = await paperDB.findOne({_id:req.params.id});
-    if(papers){
-      res.setHeader("Content-Disposition", `attachment; filename=${papers.paperName}.pdf`);
-      res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-      res.set("Content-Type", "application/pdf");
-      res.send(pdfData);
+    const paper = await paperDB.findOne({_id:req.params.id});
+    if(paper){
+      const paperPDF = readFileSync(`../frontend/uploads/papers/${paper.pdfPath}`);
+      if(paperPDF){
+        res.setHeader("Content-Disposition", `attachment; filename=${paper.paperName}.pdf`);
+        res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+        res.set("Content-Type", "application/pdf");
+        res.status(200).send(paperPDF);
+      }
+      else{
+        res.status(500).json({Message:"Unable to download"});
+      }
     }
-    res.status(404).json({message:"No paper found"})
+    else{
+      res.status(404).json({message:"No paper found"})
+    }
   } catch (error) {
     res.status(500).json({Message:"Something Went Wrong",error:error.message});
   }
