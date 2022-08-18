@@ -29,6 +29,7 @@ const answerRouter= async (req, res) => {
 };
 
 const answerRouterWithImage= async (req, res) => {
+  console.log(req.file);
   try {
     await answerDB
       .create({
@@ -50,6 +51,7 @@ const answerRouterWithImage= async (req, res) => {
         });
       });
   } catch (e) {
+    console,log(e);
     res.status(500).send({
       status: false,
       message: e.message,
