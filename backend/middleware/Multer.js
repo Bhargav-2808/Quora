@@ -2,7 +2,7 @@ import multer from 'multer';
 
 const imageStorage=multer.diskStorage({
     destination:(req,file,cb)=>{
-        cb(null,"../frontend/uploads/images");
+        cb(null,"../frontend/src/uploads/images");
     },
     filename:(req,file,cb)=>{
         const extension=file.originalname.slice(file.originalname.lastIndexOf("."));
@@ -13,7 +13,7 @@ const imageStorage=multer.diskStorage({
 
 const paperStorage=multer.diskStorage({
     destination:(req,file,cb)=>{
-        cb(null,"../frontend/uploads/papers");
+        cb(null,"../frontend/src/uploads/papers");
     },
     filename:(req,file,cb)=>{
         const extension=file.originalname.slice(file.originalname.lastIndexOf("."));
