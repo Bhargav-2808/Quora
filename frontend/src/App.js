@@ -55,7 +55,13 @@ const ProtectedAdmin = (props) => {
 function App() {
   return (
     <div className="App">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <div className="d-flex justify-content-center mt-5">
+            <div className="loading"> </div>
+          </div>
+        }
+      >
         <Routes>
           <Route exact path="/" element={<Protected Comp={Quora} />} />
           <Route exact path="/sendotp" element={<SendOTP />} />
