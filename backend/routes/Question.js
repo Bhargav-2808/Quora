@@ -144,7 +144,7 @@ const downloadPaper = async(req,res) =>{
   try {
     const paper = await paperDB.findOne({_id:req.params.id});
     if(paper){
-      const paperPDF = readFileSync(`../frontend/uploads/papers/${paper.pdfPath}`);
+      const paperPDF = readFileSync(`../frontend/src/uploads/papers/${paper.pdfPath}`);
       if(paperPDF){
         res.setHeader("Content-Disposition", `attachment; filename=${paper.paperName}.pdf`);
         res.setHeader("Access-Control-Expose-Headers", "Content-Disposition");

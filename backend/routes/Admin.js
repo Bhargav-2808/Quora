@@ -8,7 +8,7 @@ const deleteQuestion = async (req,res) =>{
     try {
         const questionImage = await questionDB.findOne({_id:questionID});
         if(questionImage.imagePath){
-            unlink(`../frontend/uploads/images/${answerImage.imagePath}`,(err)=>{
+            unlink(`../frontend/src/uploads/images/${answerImage.imagePath}`,(err)=>{
                 if (err) throw err;
                 console.log(err);
             })
@@ -23,7 +23,7 @@ const deleteQuestion = async (req,res) =>{
                 }
             }
             for(let image of imageArray){
-                unlink(`../frontend/uploads/images/${image}`,(err)=>{
+                unlink(`../frontend/src/uploads/images/${image}`,(err)=>{
                     if (err) throw err;
                     console.log(err);
                 });
@@ -44,7 +44,7 @@ const deleteAnswer = async(req,res) =>{
     try {
         const answerImage = await answerDB.findOne({_id:answerID});
         if(answerImage.imagePath){
-            unlink(`../frontend/uploads/images/${answerImage.imagePath}`,(err)=>{
+            unlink(`../frontend/src/uploads/images/${answerImage.imagePath}`,(err)=>{
                 if (err) throw err;
                 console.log(err);
             })
@@ -82,7 +82,7 @@ const deletePaper =async(req,res)=>{
         const paperID = req.params.id;
         const paper = await paperDB.findOne({_id:paperID});
         if(paper){
-            unlink(`../frontend/uploads/papers/${paper.pdfPath}`,(err)=>{
+            unlink(`../frontend/src/uploads/papers/${paper.pdfPath}`,(err)=>{
                 if (err) throw err;
                 console.log(err);
             })
