@@ -26,6 +26,7 @@ const NLogin = () => {
       });
     if (res) {
       localStorage.setItem("user", JSON.stringify(res?.data?.user));
+      console.log(res?.data?.user?.role);
       if(res?.data?.user?.role === "admin")
       {
         navigate("/admin");

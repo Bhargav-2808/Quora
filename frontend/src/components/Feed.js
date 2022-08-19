@@ -54,7 +54,6 @@ function Feed() {
     }
   }, [categorySearch])
   
-  console.log(filterFeedList,categorySearch);
   return (
     <div className="feed">
       {/* <div className="qHeader__input">
