@@ -97,11 +97,11 @@ function Post({ post }) {
         <div className="">
           <div className="">
             <Row>
-              <Col className="m-2">
+              <Col className="p-2 ms-2">
                 <p>{post?.questionName}</p>
               </Col>
 
-              <Col className="m-2">
+              <Col className="p-2">
                 <button
                   onClick={() => {
                     setIsModalOpen(true);
