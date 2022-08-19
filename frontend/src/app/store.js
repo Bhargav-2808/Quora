@@ -1,11 +1,12 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
-import { feedReducer } from './reducers/feed.reducer';
+import { feedReducer, paperReducer } from './reducers/feed.reducer';
 
 
 const middleware = [thunk];
 const reducer = combineReducers({
-    feed:feedReducer
+    feed:feedReducer,
+    paper:paperReducer
 });
 
 const store = configureStore({reducer,middleware});
