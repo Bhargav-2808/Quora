@@ -8,7 +8,7 @@ const deleteQuestion = async (req,res) =>{
     try {
         const questionImage = await questionDB.findOne({_id:questionID});
         if(questionImage.imagePath){
-            unlink(`../frontend/src/uploads/images/${answerImage.imagePath}`,(err)=>{
+            unlink(`../frontend/src/uploads/images/${questionImage.imagePath}`,(err)=>{
                 if (err) throw err;
                 console.log(err);
             })
