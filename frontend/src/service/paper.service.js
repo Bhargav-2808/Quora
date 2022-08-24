@@ -6,6 +6,11 @@ export const getPapers = async () => {
 };
 
 export const downloadPaper = async (id) => {
-  let res = await axios.get(`http://localhost:8000/api/paper/download/${id}`);
+  let res = await axios.get(`http://localhost:8000/api/paper/download/${id}`, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    responseType: "arraybuffer",
+  });
   return res?.data;
 };
