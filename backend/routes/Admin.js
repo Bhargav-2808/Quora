@@ -39,25 +39,29 @@ const deleteQuestion = async (req,res) =>{
     }
 };
 
-const deleteAnswer = async(req,res) =>{
-    const answerID = req.params.id;
-    try {
-        const answerImage = await answerDB.findOne({_id:answerID});
-        if(answerImage.imagePath){
-            unlink(`../frontend/src/uploads/images/${answerImage.imagePath}`,(err)=>{
-                if (err) throw err;
-                console.log(err);
-            })
+const deleteAnswer = async (req, res) => {
+  const answerID = req.params.id;
+  try {
+    const answerImage = await answerDB.findOne({ _id: answerID });
+    if (answerImage.imagePath) {
+      unlink(
+        `../frontend/src/uploads/images/${answerImage.imagePath}`,
+        (err) => {
+          if (err) throw err;
+          console.log(err);
         }
-        const removeAnswer = await answerDB.deleteOne({ _id:answerID });
-        if(removeAnswer){
-            return res.status(200).json({Message:"Answer Deleted"});
-        }
-        res.status(500).json({Message:"Something Went Wrong"});
-    } catch (error) {
-        res.status(500).json({Message:"Something Went Wrong",error:error.message});
+      );
     }
-    
+    const removeAnswer = await answerDB.deleteOne({ _id: answerID });
+    if (removeAnswer) {
+      return res.status(200).json({ Message: "Answer Deleted" });
+    }
+    res.status(500).json({ Message: "Something Went Wrong" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ Message: "Something Went Wrong", error: error.message });
+  }
 };
 
 const uploadPaper =async(req,res)=>{

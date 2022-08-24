@@ -35,7 +35,6 @@ const ProtectedAdmin = (props) => {
       navigate("/login");
     }
 
-    console.log(user?.role);
     // if (user?.role === "student") {
     //   navigate("/");
     // }
