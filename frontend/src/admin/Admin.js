@@ -14,7 +14,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Delete } from "@material-ui/icons";
 import ReactHtmlParser from "html-react-parser";
 import { deleteAnswers, deleteQuestions } from "../service/admin.service";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function CustomToggle({ eventKey }) {
   const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -54,10 +54,15 @@ const Admin = () => {
     <>
       <Container fluid>
         <Row>
-          <Col xl={12} lg={12} className="mt-1">
+          <Col className="mt-1 d-flex justify-content-center">
             <Button variant="dark" onClick={handleLogout}>
               Log Out
             </Button>
+          </Col>
+          <Col className="mt-1 d-flex justify-content-center">
+            <Link to={"/admin/paper"}>
+              <Button variant="dark">Upload Paper</Button>
+            </Link>
           </Col>
           <Col xl={12} lg={12} className="mt-2 mb-2">
             <Table striped variant="dark">
@@ -80,6 +85,7 @@ const Admin = () => {
                           onClick={() => {
                             deleteQuestionFunction(post?._id);
                           }}
+                          style={{ cursor: "pointer" }}
                         />
                       </td>
                       <td>
@@ -96,6 +102,7 @@ const Admin = () => {
                                       onClick={() => {
                                         deleteAnswerFunction(ans?._id);
                                       }}
+                                      style={{ cursor: "pointer" }}
                                     />
                                   </Col>
                                 </Row>

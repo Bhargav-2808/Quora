@@ -29,6 +29,8 @@ const answerRouter = async (req, res) => {
 };
 
 const answerRouterWithImage = async (req, res) => {
+  console.log(req.file);
+
   try {
     await answerDB
       .create({
@@ -54,7 +56,7 @@ const answerRouterWithImage = async (req, res) => {
 
     res.status(500).send({
       status: false,
-      message: "Error while adding answer",
+      message: e.message,
     });
   }
 };

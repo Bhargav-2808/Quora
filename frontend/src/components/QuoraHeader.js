@@ -24,7 +24,7 @@ import "./css/QuoraHeader.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchFeedList } from "../app/thunk-async";
-import { postQuestions } from "../service/question.service";
+import { postQuestions, postQuestionsImage } from "../service/question.service";
 import { Col, Form, Modal, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import SearchQ from "./Search";
@@ -36,7 +36,9 @@ function QuoraHeader() {
   const [question, setQuestion] = useState("");
   const [category, setCategory] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [file, setFile] = useState(null);
   const navigate = useNavigate();
+  const formdata = new FormData();
   const {
     register,
     handleSubmit,
@@ -58,13 +60,43 @@ function QuoraHeader() {
 
   const onSubmit = async (data) => {
     console.log(data);
-    await postQuestions(data)
-      .then((res) => {
-        dispatch(fetchFeedList());
-        setIsModalOpen(false);
-      })
-      .catch((e) => {});
+
+    formdata.append("question", data?.question);
+    formdata.append("category", data?.category);
+    formdata.append("questionImage", file);
+
+    if (file) {
+      await postQuestionsImage(formdata)
+        .then((res) => {
+          // toast.success(res?.message);
+          console.log(res?.message);
+          dispatch(fetchFeedList());
+          setIsModalOpen(false);
+        })
+        .catch((e) => {
+          // toast.success(e);
+        });
+    } else {
+      await postQuestions(data)
+        .then((res) => {
+          // toast.success(res?.message);
+          console.log(res?.message);
+          dispatch(fetchFeedList());
+          setIsModalOpen(false);
+        })
+        .catch((e) => {
+          // toast.success(e);
+        });
+    }
   };
+
+  //   await postQuestions(data)
+  //     .then((res) => {
+  //       dispatch(fetchFeedList());
+  //       setIsModalOpen(false);
+  //     })
+  //     .catch((e) => {});
+  //
 
   const handleLogout = () => {
     localStorage.clear("user");
@@ -123,20 +155,30 @@ function QuoraHeader() {
               <Modal.Body>
                 <Row>
                   <Col>
-                    <select
-                      name="category"
-                      id="cars"
-                      {...register("category", { required: true })}
-                    >
-                      <option selected value="General">
-                        General
-                      </option>
-                      <option value="Frontend">Frontend</option>
-                      <option value="Backend">Backend</option>
-                      <option value="Web Dev">Web Dev</option>
-                    </select>
+                    <div className="select-dropdown">
+                      <select
+                        name="category"
+                        id="cars"
+                        {...register("category")}
+                      >
+                        <option selected value="General">
+                          General
+                        </option>
+                        <option value="Frontend">Frontend</option>
+                        <option value="Backend">Backend</option>
+                        <option value="Web Dev">Web Dev</option>
+                      </select>
+                    </div>
                   </Col>
-                 
+                  <Col>
+                    <input
+                      type="file"
+                      name="questionImage"
+                      onChange={(e) => {
+                        setFile(e.target.files[0]);
+                      }}
+                    />
+                  </Col>
                 </Row>
 
                 <Input
@@ -166,5 +208,4 @@ function QuoraHeader() {
     </div>
   );
 }
-
 export { QuoraHeader };

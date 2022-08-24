@@ -68,19 +68,21 @@ function Post({ post }) {
           .catch((e) => {
             // toast.success(e);
           });
+      } else {
+        await postAnswers(body)
+          .then((res) => {
+            // toast.success(res?.message);
+            console.log(res?.message);
+            dispatch(fetchFeedList());
+            setIsModalOpen(false);
+          })
+          .catch((e) => {
+            // toast.success(e);
+          });
       }
-      await postAnswers(body)
-        .then((res) => {
-          // toast.success(res?.message);
-          console.log(res?.message);
-          dispatch(fetchFeedList());
-          setIsModalOpen(false);
-        })
-        .catch((e) => {
-          // toast.success(e);
-        });
     }
   };
+
   return (
     <Container>
       <div className="post">
@@ -95,12 +97,11 @@ function Post({ post }) {
         <div className="">
           <div className="">
             <Row>
-              <Col>
+              <Col className="p-2 ms-2">
                 <p>{post?.questionName}</p>
               </Col>
-            </Row>
-            <Row>
-              <Col>
+
+              <Col className="p-2">
                 <button
                   onClick={() => {
                     setIsModalOpen(true);
@@ -109,6 +110,24 @@ function Post({ post }) {
                 >
                   Answer
                 </button>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="m-2">
+                {post?.imagePath ? (
+                  <img
+                    width={200}
+                    height={150}
+                    alt="answerImage"
+                    className="postImage"
+                    src={
+                      require(`./../../src/uploads/images/${post?.imagePath}`)
+                        .default
+                    }
+                  />
+                ) : (
+                  <></>
+                )}
               </Col>
             </Row>
 
@@ -125,43 +144,46 @@ function Post({ post }) {
                 },
               }}
             >
-              <div className="modal__question">
-                <h1>{post?.questionName}</h1>
-                <p>
-                  asked by
-                  {/* <span className="name">{post?.user?.userName}</span>{" "} */}
-                  on{" "}
-                  <span className="name">
-                    {new Date(post?.createdAt).toLocaleString()}
-                  </span>
-                </p>
+              {" "}
+              <form enctype="multipart/form-data">
+                <div className="modal__question">
+                  <h1>{post?.questionName}</h1>
+                  <p>
+                    asked by
+                    {/* <span className="name">{post?.user?.userName}</span>{" "} */}
+                    on{" "}
+                    <span className="name">
+                      {new Date(post?.createdAt).toLocaleString()}
+                    </span>
+                  </p>
 
-                <input
-                  type="file"
-                  name="answerImage"
-                  onChange={(e) => {
-                    setFile(e.target.files[0]);
-                  }}
-                />
-              </div>
-              <div className="modal__answer">
-                <ReactQuill
-                  value={answer}
-                  onChange={handleQuill}
-                  placeholder="Enter your answer"
-                />
-              </div>
-              <div className="modal__button">
-                <button
-                  className="cancle"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button onClick={handleSubmit} type="submit" className="add">
-                  Add Answer
-                </button>
-              </div>
+                  <input
+                    type="file"
+                    name="answerImage"
+                    onChange={(e) => {
+                      setFile(e.target.files[0]);
+                    }}
+                  />
+                </div>
+                <div className="modal__answer">
+                  <ReactQuill
+                    value={answer}
+                    onChange={handleQuill}
+                    placeholder="Enter your answer"
+                  />
+                </div>
+                <div className="modal__button">
+                  <button
+                    className="cancle"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button onClick={handleSubmit} type="submit" className="add">
+                    Add Answer
+                  </button>
+                </div>
+              </form>
             </Modal>
           </div>
         </div>
@@ -229,6 +251,20 @@ function Post({ post }) {
                     {/* <p>{_a?.user?.userName}</p> */}
                     <span>
                       <LastSeen date={_a?.createdAt} />
+                      {_a?.imagePath ? (
+                        <img
+                          width={200}
+                          height={150}
+                          alt="answerImage"
+                          className="postImage"
+                          src={
+                            require(`./../../src/uploads/images/${_a?.imagePath}`)
+                              .default
+                          }
+                        />
+                      ) : (
+                        <></>
+                      )}
                     </span>
                   </div>
                 </div>

@@ -4,7 +4,7 @@ import "./css/Feed.css";
 import Post from "./Post";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFeedList } from "../app/thunk-async";
+import { fetchFeedList, fetchPaperList } from "../app/thunk-async";
 import searchContext from "../app/context/searchContext";
 // import { Search } from "@material-ui/icons";
 
@@ -23,6 +23,7 @@ function Feed() {
   
   useEffect(() => {
     dispatch(fetchFeedList());
+    dispatch(fetchPaperList());
   }, []);
 
   useEffect(() => {
@@ -53,7 +54,6 @@ function Feed() {
     }
   }, [categorySearch])
   
-  console.log(filterFeedList,categorySearch);
   return (
     <div className="feed">
       {/* <div className="qHeader__input">
